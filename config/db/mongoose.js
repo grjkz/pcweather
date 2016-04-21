@@ -1,5 +1,5 @@
 var mongoose = require('mongoose');
-var uri = process.env.MONGOLAB_URI || 'mongodb://localhost:27017/pcweather';
+var uri = process.env.MONGODB_URI || 'mongodb://localhost:27017/pcweather';
 
 // load and create models
 require('./models/favorites');
