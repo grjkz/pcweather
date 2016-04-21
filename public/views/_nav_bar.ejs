@@ -1,0 +1,67 @@
+<nav class="navbar navbar-default">
+	<div class="container-fluid">
+		<div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <span class="navbar-brand" href="#">PC Weather</span>
+    </div>
+
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+			<!-- FORM: LOOK UP WEATHER -->
+			<form class="navbar-form navbar-left" role="search" action="/weather" method="GET">
+				<div class="input-group">
+					<input name="location" type="text" class="form-control" placeholder="City, State, Zip">
+					<span class="input-group-btn">
+						<button type="submit" class="btn btn-default" aria-label="Get Weather"><span class="glyphicon glyphicon-search"></span></button>
+					</span>
+				</div>
+			</form>
+	
+			<!-- SHOW IF USER IS SIGNED IN -->
+			<% if (session) { %>
+			<ul class="nav navbar-nav">
+				<!-- FAVORITES DROPDOWN -->
+				<!-- <li class="dropdown">
+					<a href="#" class="dropdown-toggle toggle-favorites" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Favorites <span class="caret"></span></a>
+					<ul class="dropdown-menu user-favorites">
+						<li><a href="#">Link1</a></li>
+						<li><a href="#">Link2</a></li>
+					</ul>
+				</li> -->
+				<!-- HISTORY DROPDOWN -->
+				<li class="dropdown">
+					<a href="#" class="dropdown-toggle toggle-history" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">History <span class="caret"></span></a>
+					<ul class="dropdown-menu user-history">
+						
+
+					</ul>
+				</li>
+			
+			</ul>
+
+			<ul class="nav navbar-nav navbar-right group">
+				<li><a href="/logout">Log Out</a></li>
+			</ul>
+
+			<% } else { %>
+			
+			<!-- SHOW IF USER ISN'T SIGNED IN -->
+			<!-- LOGIN AND REGISTER LINKS right justified-->
+			<ul class="nav navbar-nav navbar-right group">
+				<li><a href="/login" id="open-login">Login</a></li>
+				<li><a href="/signup">Sign Up</a></li>
+			</ul>
+
+			<% } %>
+
+    </div> <!-- navbar-collapse -->
+
+
+	</div> <!-- end .container-fluid -->
+
+
+</nav>

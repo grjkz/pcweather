@@ -1,0 +1,93 @@
+* {
+	/*border:1px solid black;*/
+}
+
+/*
+General
+ */
+
+body {
+	background-color: #c0fffa;
+}
+
+.main > div {
+	margin-bottom: 15px;
+	margin-top: 15px;
+	background-color: #fefefe;
+	box-shadow: 0px 3px 5px rgba(0,0,0,0.2);
+}
+
+.align-right {
+	text-align: right;
+}
+
+#error-messages {
+	color: red;
+}
+
+
+/*
+Font Styles and Colors
+ */
+
+.precipitation {
+	color: blue;
+}
+
+.temp-high {
+	color: #f88379;
+}
+
+.temp-low {
+	color: #777777;
+}
+
+.current-temp {
+	font-size: 45px;
+}
+
+.wind-speed {
+	color: #68421a;
+	text-shadow: 0px 0.1px 0.1px;
+}
+
+.date-day {
+	color: rgba(0,0,0,0.4);
+}
+
+.tiny-font {
+	font-size: 8px;
+}
+
+
+/*
+_forecast_info
+ */
+
+.overflow-x {
+	overflow-x: scroll;
+	white-space: nowrap;
+  padding: 12px;
+}
+
+.day-summary {
+	width: 150px;
+	display: inline-block;
+	/*float: none;*/
+}
+
+/*
+Login
+ */
+.login-card {
+	width: 350px;
+	padding: 15px;
+}
+
+/*
+Sign Up
+ */
+.registration-card {
+	width: 350px;
+	padding: 15px;
+}

@@ -1,0 +1,57 @@
+<div class="row forecast-info">
+	<div class="header-text">
+		<h4>Forecast</h4>
+	</div>
+	<div class="col col-xs-12 overflow-x">
+		<div class="row">
+			
+			<% results.daily.data.forEach(function(day, index) { %>
+
+			<div class="day-summary">
+				
+				<div class="precipitation">
+					<p>
+						<% if (day.precipProbability > 0) { %>
+							<%= (day.precipProbability * 100).toFixed(0) %>%
+						<% } %>
+					</p>
+				</div>
+
+				<div class="day">
+					<% if (index == 0) { %>
+						<h5>Today</h5>
+					<% } else { %>
+						<h5><%= getDay(day.time) %> <span class="date-day"><%= new Date(day.time*1000).getDate()%></span></h5>
+					<% } %>
+				</div>
+
+				<div class="sky-condition">
+					<p><%= day.icon %></p>
+				</div>
+
+				<div class="temperature">
+					<p>
+						<span class="temp-high"><%= day.temperatureMax.toFixed(0) %>&deg;</span> | <span class="temp-low"><%= day.temperatureMin.toFixed(0) %>&deg;</span>
+					</p>
+				</div>
+
+				<div class="wind-speed">
+					<p><%= (day.windSpeed * 3.6).toFixed(2) %> <span class="tiny-font">KM/H</span></p>
+				</div>
+
+			</div>
+
+			<% }) %>
+
+		</div>
+	</div>
+	
+	<%
+		function getDay(time) {
+			var weekdays = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+			var date = new Date(time*1000);
+			var day = date.getDay();
+			return weekdays[day];
+		}
+	%>
+</div>

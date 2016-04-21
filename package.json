@@ -1,0 +1,29 @@
+{
+  "name": "challenge2",
+  "version": "1.0.0",
+  "description": "Philip Choi Coding Challenge 2",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "app.js"
+  },
+  "keywords": [
+    "weather",
+    "geoapi"
+  ],
+  "author": "Philip Choi <philipchoicodes@gmail.com>",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.15.0",
+    "dotenv": "^2.0.0",
+    "ejs": "^2.4.1",
+    "express": "^4.13.4",
+    "express-session": "^1.13.0",
+    "mongoose": "^4.4.12",
+    "path": "^0.12.7",
+    "request": "^2.72.0"
+  },
+  "devDependencies": {
+    "dotenv": "^2.0.0"
+  }
+}

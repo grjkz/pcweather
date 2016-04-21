@@ -1,0 +1,27 @@
+<div class="row current-conditions">
+	<div class="header-text">
+		<h4>Current Conditions</h4>
+	</div>
+	<div class="col col-xs-5">
+		<div class="current-temp">
+			<p><%= results.currently.temperature.toFixed(0) %> &deg;F</p>
+		</div>
+		<div class="current-sky">
+			<p><%= results.currently.summary %></p>
+		</div>
+	</div>
+
+	<div class="col col-xs-7">
+		<div class="row">
+			<div class="col col-xs-6">
+				<h5>Precipitation: </h5>
+				<p class='precipitation'><%= results.currently.precipProbability %>%</p>
+			</div>
+			<div class="col col-xs-6">
+				<h5>Wind [KM/H]</h5>
+				<p class="wind-speed"><%= (results.currently.windSpeed * 3.6).toFixed(2) %></p>
+			</div>
+		</div>
+	</div>
+	
+</div> <!-- end .current-conditions -->

@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<% include _head_links %>
+	<title>Login</title>
+</head>
+<body>
+	<% include _nav_bar %>
+
+	<div class="main">
+		<div class="container card login-card">
+			<div class="header-text text-center">
+				<h3>Log In</h3>
+			</div>
+
+			<div class="login-form">
+				<form action="/login" id="login-form" method="POST">
+					<div class="input-group">
+						<span class="input-group-addon">Email</span>
+						<input name="email" type="text" class="form-control" placeholder="weather@domain.com">
+					</div>
+
+					<br>
+
+					<div class="input-group">
+						<span class="input-group-addon">Password</span>
+						<input name="password" type="password" class="form-control password" placeholder="Alphanumeric" required>
+					</div>
+					
+					<br>
+
+					<div>
+						<ul id="error-messages">
+							<% if (error) { %>
+							<li><%= error %></li>
+							<% } %>
+						</ul>
+					</div>
+					
+					<div class="align-right">
+						<button class="btn btn-info">Sign Up</button>
+					</div>
+				</form>
+
+			</div> <!-- .login-form -->
+		</div> <!-- .login-card -->
+
+
+	</div> <!-- .main -->
+
+	<% include _console_scripts %>
+</body>
+</html>

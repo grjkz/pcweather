@@ -1,0 +1,42 @@
+<script src="https://code.jquery.com/jquery-1.12.3.min.js" integrity="sha256-aaODHAgvwQW1bFOGXMeX+pC4PZIPsvn2h1sArYOhgXQ=" crossorigin="anonymous"></script>
+<script type="text/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+
+
+<script type="text/javascript">
+	// get user's saved locations
+	$('.toggle-favorites').one('click', function(e) {
+		var ul = $('.user-favorites');
+		$.ajax({
+			url: "/user/favorites",
+			type: "get",
+			success: function(data) {
+				//do react stuff
+			},
+			error: function(data) {
+
+			}
+		});
+	});
+
+	// get user's search history
+	$('.toggle-history').one('click', function(e) {
+		var $ul = $('.user-history');
+		$.ajax({
+			url: "/user/searchhistory",
+			type: "get",
+			success: function(data) {
+				if (data) {
+					data.forEach(function(item) {
+						$ul.append($('<li><a href="/weather?location='+ item.query +'">'+ item.query +'</a></li>'));
+					})
+				}
+				else {
+					$ul.append($('<li>Do a search first!!</li>'));
+				}
+			},
+			error: function(data) {
+				$ul.append($('<li>Something went wrong :(</li>'));
+			}
+		});
+	})
+</script>
