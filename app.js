@@ -52,7 +52,6 @@ app.use(express.static('public'));
 //////////
 
 app.get('/', function(req, res) {
-	console.log(req.session)
 	res.render('index', {session: req.session.email});
 });
 
@@ -113,34 +112,9 @@ app.get('/logout', function(req,res) {
 /////////////
 
 app.get('/weather', function(req, res) {
-	// if user is logged in
-	if (req.session.email) {
-		// create new history document
-		History.create({query: req.query.location}, function(err, historyItem) {
-			if (err) {
-				console.log(err)
-			}
-			else {
-				// query user
-				User.findOne({email: req.session.email}, function(err, user) {
-					if (err) console.log(err);
-					else {
-						// push new history query into user's history
-						user.history.push(historyItem)
-						// remove oldes history item if over 5 saved items
-						user.history.length > 5 ? user.history.shift() : 1;
-						// don't forget to save
-						user.save();
-					}
-				});
-
-			}
-		});
-		
-	}
 
 	// GET COORDINATES
-	grabCoords(req, res, function(coords) {
+	grabCoords(req, res, function(coords, address) {
 		// GET WEATHER
 		var foreUrl = app.get("forecastUrl") + coords.lat + "," + coords.lng;
 
@@ -149,8 +123,10 @@ app.get('/weather', function(req, res) {
 				return res.send(forecastBody);
 			}
 			var forecastResults = JSON.parse(forecastBody);
+			// save to user's history
+			saveToHistory(req);
 
-			res.render('weather', {results: forecastResults, coords: (coords), session: req.session.email});
+			res.render('weather', {results: forecastResults, coords: (coords), address: address, session: req.session.email});
 		});
 	});
 });
@@ -159,33 +135,36 @@ app.get('/weather', function(req, res) {
 app.get('/weather/history', function(req,res) {
 	var lat = req.query.lat;
 	var lng = req.query.lng;
-	var secPerDay = 86400;
-	var date = new Date();
-	var unixTimeSec = Math.floor(date.getTime()/1000);
-	var targetDate = new Date(unixTimeSec - (secPerDay * 3));
-	var foreUrl = app.get("forecastUrl") + lat + "," + lng + "," + targetDate.getTime();
+	
 	var results = [];
 
-	// get 3rd day before today
-	request(foreUrl, function(err, response, forecastBody) {
-		if (err || response.statusCode == 400) {
+	var date = new Date();
+	var milisecPerDay = 86400000;
+	var targetDate = new Date(date.getTime() - (milisecPerDay * 3));
+	var targetUnixTime = Math.floor(targetDate.getTime()/1000);
+	var foreUrl = app.get("forecastUrl") + lat + "," + lng + ",";
 			
+	
+	// get 3rd day before today
+	request(foreUrl+targetUnixTime, function(err, response, forecastBody) {
+		if (err || response.statusCode == 400) {
+			console.log('error getting history')
 			return res.redirect('/');
 		}
 		results.push(JSON.parse(forecastBody));
-		var targetDate = new Date(unixTimeSec - (secPerDay * 2));
+		targetUnixTime += (milisecPerDay/1000);
 
 		// get 2nd day before today
-		request(foreUrl, function(err, response, forecastBody) {
+		request(foreUrl+targetUnixTime, function(err, response, forecastBody) {
 			if (err || response.statusCode == 400) {
 			
 				return res.redirect('/');
 			}
 			results.push(JSON.parse(forecastBody));
-			var targetDate = new Date(unixTimeSec - (secPerDay * 1));
+			targetUnixTime += (milisecPerDay/1000);
 
 			// get previous day
-			request(foreUrl, function(err, response, forecastBody) {
+			request(foreUrl+targetUnixTime, function(err, response, forecastBody) {
 				if (err || response.statusCode == 400) {
 			
 					return res.redirect('/');
@@ -257,10 +236,10 @@ function grabCoords(req, res, callback) {
 			console.log(err);
 			return res.redirect('/');
 		}
-
+		var address = geoResults.results[0].formatted_address;
 		var coords = geoResults.results[0].geometry.location; // .lat .lng
 		// USE CALLBACK and send back geo coordinates
-		return callback(coords);
+		return callback(coords, address);
 	});
 }
 
@@ -284,3 +263,33 @@ function grabCoords(req, res, callback) {
 
 // 	});
 // }
+
+/**
+ * Saves the latest query to user's history if logged in
+ * @param  {object} req Request object
+ */
+function saveToHistory(req) {
+	// if user is logged in
+	if (req.session.email) {
+		// create new history document
+		History.create({query: req.query.location}, function(err, historyItem) {
+			if (err) {
+				return console.log(err)
+			}
+			else {
+				// query user
+				User.findOne({email: req.session.email}, function(err, user) {
+					if (err) return console.log(err);
+					else {
+						// push new history query into user's history
+						user.history.push(historyItem)
+						// remove oldes history item if over 5 saved items
+						user.history.length > 5 ? user.history.shift() : 1;
+						// don't forget to save
+						user.save();
+					}
+				});
+			}
+		});
+	}
+}
