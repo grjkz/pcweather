@@ -18,7 +18,7 @@
 				<form action="/login" id="login-form" method="POST">
 					<div class="input-group">
 						<span class="input-group-addon">Email</span>
-						<input name="email" type="text" class="form-control" placeholder="weather@domain.com">
+						<input name="email" type="email" class="form-control" placeholder="weather@domain.com">
 					</div>
 
 					<br>
@@ -50,5 +50,29 @@
 	</div> <!-- .main -->
 
 	<% include _console_scripts %>
+	<script type="text/javascript" src="https://ajax.aspnetcdn.com/ajax/jquery.validate/1.15.0/jquery.validate.min.js"></script>
+	<script type="text/javascript">
+		$(function() {
+			$("#login-form").validate({
+				rules: {
+					email: {
+						required: true,
+						email: true
+					},
+					password: {
+						'required': true,
+						'minlength': 6
+					}
+				},
+
+				messages: {
+					email: "Enter an email",
+					password: "At least 6 characters"
+				},
+				errorLabelContainer: "#error-messages",
+				errorElement: 'li'
+			});
+		});
+	</script>
 </body>
 </html>

@@ -18,7 +18,7 @@
 				<form id="signup-form" action="/signup" method="POST">
 					<div class="input-group">
 						<span class="input-group-addon">Email</span>
-						<input name="email" type="text" class="form-control" placeholder="weather@domain.com">
+						<input name="email" type="email" class="form-control" placeholder="weather@domain.com">
 					</div>
 
 					<br>
@@ -52,29 +52,31 @@
 	<% include _console_scripts %>
 	<script type="text/javascript" src="https://ajax.aspnetcdn.com/ajax/jquery.validate/1.15.0/jquery.validate.min.js"></script>
 	<script type="text/javascript">
-		$("#signup-form").validate({
-			rules: {
-				
-				email: {
-					required: true,
-					email: true
+		$(function() {
+			$("#signup-form").validate({
+				rules: {
+					
+					email: {
+						required: true,
+						email: true
+					},
+					password: {
+						'required': true,
+						'minlength': 6
+					},
+					verify: {
+						equalTo: ".password"
+					}
 				},
-				password: {
-					'required': true,
-					'minlength': 6
-				},
-				verify: {
-					equalTo: ".password"
-				}
-			},
 
-			messages: {
-				email: "Enter an email",
-				password: "At least 6 characters",
-				"verify": "Doesn't match password"
-			},
-			errorLabelContainer: "#error-messages",
-			errorElement: 'li'
+				messages: {
+					email: "Enter an email",
+					password: "At least 6 characters",
+					"verify": "Doesn't match password"
+				},
+				errorLabelContainer: "#error-messages",
+				errorElement: 'li'
+			});
 		});
 	</script>
 </body>
