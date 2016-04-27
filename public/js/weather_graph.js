@@ -9,11 +9,12 @@ function getHistory() {
 		data: coords,
 		type: "get",
 		success: function(response) {
+			console.log(response)
 			var hourlyHistoryData = [["Hour", "Temp", "Precip"]];
 			// push all the response data into hourlyHistoryData
 			response.forEach(function(day) {
 				day.hourly.data.forEach(function(hour) {
-					hourlyHistoryData.push(["", hour.temperature, hour.precipProbability]);
+					hourlyHistoryData.push(["", hour.temperature, hour.precipProbability*100]);
 				})
 			});
 			drawChart(hourlyHistoryData);
